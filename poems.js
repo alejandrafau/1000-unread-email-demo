@@ -4,7 +4,7 @@
 // 3. Optional: add a description (alt text) for each poem below, keyed by file name.
 //    Poems without a description use their file name.
 // 4. Resources: upload the PDFs to resources/ with these exact names:
-//    facilitators-guide.pdf, slide-deck.pdf, participants-booklet.pdf, poem-cards.pdf
+//    facilitators-guide_en.pdf, facilitators-guide_es.pdf, slide-deck.pdf, participant-booklet.pdf, poem-card.pdf
 
 window.SITE = {
   repo: 'USERNAME/REPO-NAME',
