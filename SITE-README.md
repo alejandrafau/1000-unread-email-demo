@@ -7,7 +7,8 @@ In `poems.js`, set `repo` to your GitHub repo, e.g. `'alejandra/1000-unread-emai
 
 ## Add a poem
 Upload the image to `assets/poems/`. The site lists that folder automatically and the counter updates.
-Optional: add its description in `poems.js` under `POEM_ALTS` (file name → text). It is read aloud by screen readers.
+Optional: add it to `POEMS` in `poems.js` with its typed text, author and, if there is one, a recording in `assets/audios/` and a translation. The text shows over the image on hover and the recording plays. Poems listed there appear first, in that order.
+Images are A5 portrait (1000×1414 px works well).
 
 ## Resources
 Upload PDFs to `resources/` with these exact names:
