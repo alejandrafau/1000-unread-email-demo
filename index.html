@@ -9,7 +9,21 @@
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap">
-<style>body{margin:0;background:#fff;font-family:'JetBrains Mono',monospace;color:#1A2332}a{color:#5D7186}a:hover{color:#B8785A}</style>
+<style>body{margin:0;background:#fff;font-family:'JetBrains Mono',monospace;color:#1A2332}a{color:#5D7186}a:hover{color:#B8785A}
+.poem{position:relative;margin:0;aspect-ratio:1000/1414;overflow:hidden;cursor:pointer;outline:none;border:1px solid #1A2332}
+.poem img{width:100%;height:100%;object-fit:cover;display:block}
+.poem-layer{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;background:rgba(26,35,50,.88);color:#fff;font-size:12px;line-height:1.45;opacity:0;transition:opacity .25s}
+.poem:hover .poem-layer,.poem:focus-visible .poem-layer,.poem.on .poem-layer{opacity:1}
+.poem-from{font-size:11px;color:#B9C4D0}
+.poem-title{font-size:13px;font-weight:800}
+.poem-text,.poem-tr{margin:0;white-space:pre-line}
+.poem-tr{padding-top:12px;border-top:1px solid rgba(255,255,255,.35);color:#B9C4D0;font-style:italic}
+.poem-by{margin-top:auto;font-weight:700}
+.poem-sound{position:absolute;top:8px;right:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:#1A2332;color:#fff;font-size:14px}
+.poem-hint{font-size:11px;color:#E8B89F}
+.poem.text-only .poem-layer{opacity:1;background:#1A2332;padding-top:44px}
+.poem-note{font-size:11px;color:#B9C4D0}
+</style>
 <script src="./poems.js"></script>
 </helmet>
 <div style="min-height:100vh;display:flex;flex-direction:column">
@@ -29,9 +43,23 @@
 <div style="padding:8px 12px;font-size:40px;font-weight:800;letter-spacing:-0.03em;line-height:1">{{ count }}</div>
 </div>
 </section>
-<main style="padding:40px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px">
+<main style="padding:40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px">
 <sc-for list="{{ poems }}" as="p" hint-placeholder-count="2">
-<img src="{{ p.src }}" alt="{{ p.alt }}" style="width:100%;display:block">
+<figure class="{{ p.cls }}" sc-camel-tab-index="0" onmouseenter="{{ p.enter }}" onmouseleave="{{ p.leave }}" onfocus="{{ p.enter }}" onblur="{{ p.leave }}" onclick="{{ p.click }}">
+<sc-if value="{{ p.src }}"><img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy"></sc-if>
+<sc-if value="{{ p.text }}">
+<figcaption class="poem-layer">
+<sc-if value="{{ p.from }}"><span class="poem-from">From: {{ p.from }}</span></sc-if>
+<sc-if value="{{ p.title }}"><span class="poem-title">{{ p.title }}</span></sc-if>
+<p class="poem-text">{{ p.text }}</p>
+<sc-if value="{{ p.translation }}"><p class="poem-tr">{{ p.translation }}</p></sc-if>
+<sc-if value="{{ p.hint }}"><span class="poem-hint">Click to listen ♪</span></sc-if>
+<sc-if value="{{ p.noimg }}"><span class="poem-note">Transcribed from the recording · card not photographed</span></sc-if>
+<span class="poem-by">— {{ p.byline }}</span>
+</figcaption>
+</sc-if>
+<sc-if value="{{ p.audio }}"><span class="poem-sound" aria-hidden="true">♪</span></sc-if>
+</figure>
 </sc-for>
 </main>
 <section id="about" style="margin:24px 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
@@ -80,22 +108,63 @@ class Component extends DCLogic {
     else if (!d.querySelector('script[src="' + w + '"]')) { const s = d.createElement('script'); s.src = w; s.onload = v; s.onerror = v; d.body.appendChild(s); }
     else setTimeout(v, 300);
   }
-  state = { poems: [] };
-  fallback = ['poem-amazon.png', 'poem-patagonia.png'];
+  state = { poems: [], active: -1, blocked: -1 };
+  audio = null;
+  componentWillUnmount() { this.stop(); }
   async loadPoems() {
-    const S = window.SITE || {}, alts = window.POEM_ALTS || {}, dir = S.poemsFolder || 'assets/poems';
-    let files = this.fallback;
+    const S = window.SITE || {}, meta = window.POEMS || [], dir = S.poemsFolder || 'assets/poems', adir = S.audiosFolder || 'assets/audios';
+    let files = meta.map(m => m.file);
     try {
       if (S.repo && !S.repo.includes('USERNAME')) {
         const r = await fetch('https://api.github.com/repos/' + S.repo + '/contents/' + dir + '?ref=' + (S.branch || 'main'));
         if (r.ok) files = (await r.json()).filter(f => f.type === 'file' && /\.(png|jpe?g|webp|gif)$/i.test(f.name)).map(f => f.name);
       }
     } catch (e) {}
-    files.sort();
-    this.setState({ poems: files.map(n => ({ src: dir + '/' + n, alt: alts[n] || n.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ') })) });
+    // poems described in POEMS go first, in that order (entries without a file become text-only cards);
+    // images not described there follow alphabetically
+    const listed = meta.filter(m => !m.file || files.includes(m.file));
+    const extra = files.filter(n => !meta.some(m => m.file === n)).sort().map(n => ({ file: n }));
+    this.setState({ poems: listed.concat(extra).map(m => {
+      return {
+        src: m.file ? dir + '/' + m.file : '', audio: m.audio ? adir + '/' + m.audio : '',
+        noimg: !m.file,
+        text: m.text || '', translation: m.translation || '', title: m.title || '', from: m.from || '',
+        byline: m.author || 'Anonymous',
+        alt: 'Handwritten poem' + (m.author ? ' by ' + m.author : ''),
+      };
+    }) });
+  }
+  play(i) {
+    this.stop();
+    this.setState({ active: i, blocked: -1 });
+    const src = this.state.poems[i].audio;
+    if (!src) return;
+    const a = this.audio = new Audio(src);
+    // browsers block sound until the visitor has clicked the page once; then a click on the poem plays it
+    a.play().catch(() => { if (this.audio === a) this.setState({ blocked: i }); });
+  }
+  stop() {
+    if (this.audio) { this.audio.pause(); this.audio = null; }
+  }
+  leave(i) {
+    if (this.state.active !== i) return;
+    this.stop();
+    this.setState({ active: -1, blocked: -1 });
+  }
+  click(i) {
+    if (this.state.active === i && this.audio && !this.audio.paused) return;
+    this.play(i);
   }
   renderVals() {
-    const poems = this.state.poems;
+    const { active, blocked } = this.state;
+    const poems = this.state.poems.map((p, i) => ({
+      ...p,
+      cls: 'poem' + (p.noimg ? ' text-only' : '') + (active === i ? ' on' : ''),
+      hint: blocked === i,
+      enter: () => this.play(i),
+      leave: () => this.leave(i),
+      click: () => this.click(i),
+    }));
     return { poems, count: poems.length };
   }
 }
