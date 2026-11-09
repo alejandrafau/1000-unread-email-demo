@@ -122,9 +122,8 @@ your 5$ is out there
 split it. spend it. enjoy it.
 a little better never perfect.`,
   },
-  // No photo of these two cards: shown as text-only cards, transcribed from the recordings.
   {
-    audio: '08-new-styles.m4a',
+    file: '27-new-styles.jpg', audio: '08-new-styles.m4a', author: 'George and Toshinari', from: 'Junk folder',
     text: `New styles in triple black
 New release from Phantom Limb
 Oh dear, Sydney Sweeney's at it again
@@ -133,7 +132,7 @@ Why is the far right gaining ground in Brazil?
 The agony of liberal Europe`,
   },
   {
-    audio: '09-so-pleased.m4a',
+    file: '28-so-pleased.jpg', audio: '09-so-pleased.m4a', author: 'Solenne Lazaro', title: 'Clitch',
     text: `So pleased to write you
 and I hope this finds you well
 It's only words, can you tell?
@@ -391,5 +390,26 @@ test`,
     translation: `Andrew, attention:
 Your profile is very popular.
 Do you want to score big?`,
+  },
+  {
+    file: '29-seeking-job-seeks.jpg', title: 'Seeking Job Seeks',
+    text: `Are you a food enthusiast?
+Are you health conscious?
+I'm looking for AI-decision makers
+30 mins on your dairy choices and ad-perceptions
+Seeking shopping enthusiasts
+Your payment: Questions?`,
+  },
+  {
+    file: '30-double-trouble.jpg', author: 'Giovanni',
+    text: `Double trouble?
+Chill out!
+The forever bill.
+Lay low, take a shot.
+Energy boost, walk away on top.
+Six years left.
+To the beach.
+Insert coin, Big swing.
+Joining forces, food for thought`,
   },
 ];
