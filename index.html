@@ -23,6 +23,15 @@
 .poem-hint{font-size:11px;color:#E8B89F}
 .poem.text-only .poem-layer{opacity:1;background:#1A2332;padding-top:44px}
 .poem-note{font-size:11px;color:#B9C4D0}
+.ws{padding:24px;display:flex;flex-wrap:wrap;gap:24px;border-bottom:1px solid #1A2332}
+.ws:last-child{border-bottom:0}
+.ws{flex-direction:column}
+.ws-photos{display:flex;gap:12px;overflow-x:auto}
+.ws-photos a{flex:none}
+.ws-photos img{height:180px;width:auto;display:block;border:1px solid #1A2332}
+.ws-body{display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.6}
+.ws-field{display:flex;gap:10px;flex-wrap:wrap;font-size:13px}
+.ws-desc{margin:8px 0 0}
 </style>
 <script src="./poems.js"></script>
 </helmet>
@@ -30,7 +39,7 @@
 <header style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:16px 40px;border-bottom:1.5px solid #1A2332">
 <img src="assets/mw-logo.png" alt="1000 unread emails logo" style="height:56px;display:block">
 <span style="font-size:20px;font-weight:800">1000 unread emails</span>
-<nav style="margin-left:auto;display:flex;gap:32px;font-size:14px"><a href="#">Collection</a><a href="#about">About</a><a href="#contribute">Contribute</a><a href="#resources">Resources</a></nav>
+<nav style="margin-left:auto;display:flex;gap:32px;font-size:14px"><a href="#">Collection</a><a href="#about">About</a><a href="#workshops">Workshops</a><a href="#contribute">Contribute</a><a href="#resources">Resources</a><a href="#contact">Contact</a></nav>
 </header>
 <section style="padding:56px 40px 40px;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid #1A2332">
 <div style="display:flex;flex-direction:column;gap:16px;flex:1 1 420px">
@@ -70,8 +79,28 @@
 <div style="padding:24px;display:flex;flex-direction:column;gap:16px;font-size:15px;line-height:1.6;flex:2 1 420px">
 <p style="margin:0">1000 unread emails is a collection of poems made out of email subjects from big techs, social media, banks, streaming platforms and other digital services.</p>
 <p style="margin:0">The project started as a workshop for MozFest 2026.</p>
-<p style="margin:0">Anyone can contribute a poem through the <a href="#contribute">submission form</a>. You can also organize your own workshop using the facilitator's guide and the participant materials provided.</p>
+<p style="margin:0">Anyone can contribute a poem through the <a href="#contribute">submission form</a>. You can also organize your own workshop using the <a href="#resources">facilitator's guide and the participant materials</a> provided.</p>
 <p style="margin:0">More notes on motivations here: <a href="https://eseldesvelo.substack.com/p/on-the-way-to-mozilla-festival">eseldesvelo.substack.com</a></p>
+</div>
+</section>
+<section id="workshops" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
+<div style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
+<div style="font-size:13px;display:flex;gap:10px"><b>Subject:</b><span>Workshops</span></div>
+<h2 style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.05">Workshops so far</h2>
+<p style="margin:0;font-size:13px;color:#4A5F7A">Ran one? <a href="#contact">Tell us</a> and <a href="#contribute">send the poems</a>.</p>
+</div>
+<div style="flex:2 1 420px;display:flex;flex-direction:column">
+<sc-for list="{{ workshops }}" as="w" hint-placeholder-count="1">
+<article class="ws">
+<sc-if value="{{ w.hasImages }}"><div class="ws-photos"><sc-for list="{{ w.images }}" as="im"><a href="{{ im.src }}" target="_blank" rel="noopener"><img src="{{ im.src }}" alt="{{ im.alt }}" loading="lazy"></a></sc-for></div></sc-if>
+<div class="ws-body">
+<div class="ws-field"><b>Place:</b><span>{{ w.place }}</span></div>
+<sc-if value="{{ w.date }}"><div class="ws-field"><b>Date:</b><span>{{ w.date }}</span></div></sc-if>
+<div class="ws-field"><b>Facilitator:</b><span>{{ w.facilitator }}</span></div>
+<sc-if value="{{ w.description }}"><p class="ws-desc">{{ w.description }}</p></sc-if>
+</div>
+</article>
+</sc-for>
 </div>
 </section>
 <section id="contribute" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
@@ -96,6 +125,16 @@
 <a href="resources/poem-card.pdf" download style="padding:16px 24px;display:flex;gap:16px;justify-content:space-between"><span>Poem cards</span><span>PDF ↓</span></a>
 </div>
 </section>
+<section id="contact" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
+<div style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
+<div style="font-size:13px;display:flex;gap:10px"><b>Subject:</b><span>Contact</span></div>
+<h2 style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.05">Get in touch</h2>
+</div>
+<div style="flex:2 1 420px;display:flex;flex-direction:column;font-size:15px">
+<div style="padding:16px 24px;border-bottom:1px solid #1A2332;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between"><b>Email:</b><span style="overflow-wrap:anywhere">maria.alejandra.fauquie [at] gmail.com</span></div>
+<a href="https://www.instagram.com/criaturasdeoficina/" target="_blank" rel="noopener" style="padding:16px 24px;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between"><b style="color:#1A2332">Instagram:</b><span>@criaturasdeoficina</span></a>
+</div>
+</section>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
@@ -108,11 +147,20 @@ class Component extends DCLogic {
     else if (!d.querySelector('script[src="' + w + '"]')) { const s = d.createElement('script'); s.src = w; s.onload = v; s.onerror = v; d.body.appendChild(s); }
     else setTimeout(v, 300);
   }
-  state = { poems: [], active: -1, blocked: -1 };
+  state = { poems: [], workshops: [], active: -1, blocked: -1 };
   audio = null;
   componentWillUnmount() { this.stop(); }
   async loadPoems() {
     const S = window.SITE || {}, meta = window.POEMS || [], dir = S.poemsFolder || 'assets/poems', adir = S.audiosFolder || 'assets/audios';
+    const wdir = S.workshopsFolder || 'assets/workshops';
+    this.setState({ workshops: (window.WORKSHOPS || []).map(w => {
+      const imgs = (w.images || []).concat(w.image ? [w.image] : []);
+      return {
+        place: w.place || '', date: w.date || '', facilitator: w.facilitator || '', description: w.description || '',
+        hasImages: imgs.length > 0,
+        images: imgs.map((n, k) => ({ src: wdir + '/' + n, alt: 'Photo ' + (k + 1) + ' of the workshop at ' + (w.place || '') })),
+      };
+    }) });
     let files = meta.map(m => m.file);
     try {
       if (S.repo && !S.repo.includes('USERNAME')) {
@@ -165,7 +213,7 @@ class Component extends DCLogic {
       leave: () => this.leave(i),
       click: () => this.click(i),
     }));
-    return { poems, count: poems.length };
+    return { poems, count: poems.length, workshops: this.state.workshops };
   }
 }
 </script>
