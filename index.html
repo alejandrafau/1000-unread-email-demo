@@ -26,25 +26,46 @@
 .ws{padding:24px;display:flex;flex-wrap:wrap;gap:24px;border-bottom:1px solid #1A2332}
 .ws:last-child{border-bottom:0}
 .ws{flex-direction:column}
-.ws-photos{display:flex;gap:12px;overflow-x:auto}
+.ws-photos{display:flex;gap:12px;overflow-x:auto;max-width:100%}
+.ws,.ws-photos,#workshops > div:not(.box-head){min-width:0}
 .ws-photos a{flex:none}
 .ws-photos img{height:180px;width:auto;display:block;border:1px solid #1A2332}
 .ws-body{display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.6}
 .ws-field{display:flex;gap:10px;flex-wrap:wrap;font-size:13px}
 .ws-desc{margin:8px 0 0}
+body{overflow-x:clip}
+iframe{max-width:100%}
+#resources a span:last-child{white-space:nowrap}
+@media (max-width:640px){
+  .site-head{padding:12px 16px!important;gap:12px!important}
+  .site-head img{height:40px!important}
+  .site-nav{margin-left:0!important;width:100%;flex-wrap:wrap;gap:8px 18px!important;font-size:13px!important}
+  .hero{padding:32px 16px 24px!important;gap:24px!important}
+  .hero-title{font-size:40px!important}
+  .grid{padding:24px 16px!important;gap:16px!important}
+  .box{margin:0 16px 32px!important}
+  #about.box{margin-top:8px!important}
+  .box-head{padding:16px!important;flex-basis:100%!important}
+  .box-head h2{font-size:26px!important}
+  .box > div:not(.box-head){flex-basis:100%!important;min-width:0}
+  #about > div:not(.box-head), #contribute > div:not(.box-head){padding:16px!important}
+  #resources > div > a, #contact > div:not(.box-head) > *{padding-left:16px!important;padding-right:16px!important}
+  .ws{padding:16px!important}
+  .ws-photos img{height:140px}
+}
 </style>
 <script src="./poems.js"></script>
 </helmet>
 <div style="min-height:100vh;display:flex;flex-direction:column">
-<header style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:16px 40px;border-bottom:1.5px solid #1A2332">
+<header class="site-head" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:16px 40px;border-bottom:1.5px solid #1A2332">
 <img src="assets/mw-logo.png" alt="1000 unread emails logo" style="height:56px;display:block">
 <span style="font-size:20px;font-weight:800">1000 unread emails</span>
-<nav style="margin-left:auto;display:flex;gap:32px;font-size:14px"><a href="#">Collection</a><a href="#about">About</a><a href="#workshops">Workshops</a><a href="#contribute">Contribute</a><a href="#resources">Resources</a><a href="#contact">Contact</a></nav>
+<nav class="site-nav" style="margin-left:auto;display:flex;gap:32px;font-size:14px"><a href="#">Collection</a><a href="#about">About</a><a href="#workshops">Workshops</a><a href="#contribute">Contribute</a><a href="#resources">Resources</a><a href="#contact">Contact</a></nav>
 </header>
-<section style="padding:56px 40px 40px;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid #1A2332">
+<section class="hero" style="padding:56px 40px 40px;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid #1A2332">
 <div style="display:flex;flex-direction:column;gap:16px;flex:1 1 420px">
 <div style="display:flex;gap:12px;font-size:15px"><b>From:</b><span>Workshop participants</span></div>
-<h1 style="margin:0;font-size:64px;font-weight:800;letter-spacing:-0.03em;line-height:1;text-wrap:pretty">The collection</h1>
+<h1 class="hero-title" style="margin:0;font-size:64px;font-weight:800;letter-spacing:-0.03em;line-height:1;text-wrap:pretty">The collection</h1>
 <p style="margin:0;font-size:15px;color:#4A5F7A;max-width:60ch">Poems made out of email subjects from big techs, social media, banks, streaming platforms and other digital services.</p>
 </div>
 <div style="border:1.5px solid #1A2332;background:#1A2332;color:#fff;display:flex;flex-direction:column;min-width:160px">
@@ -52,7 +73,7 @@
 <div style="padding:8px 12px;font-size:40px;font-weight:800;letter-spacing:-0.03em;line-height:1">{{ count }}</div>
 </div>
 </section>
-<main style="padding:40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px">
+<main class="grid" style="padding:40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px">
 <sc-for list="{{ poems }}" as="p" hint-placeholder-count="2">
 <figure class="{{ p.cls }}" sc-camel-tab-index="0" onmouseenter="{{ p.enter }}" onmouseleave="{{ p.leave }}" onfocus="{{ p.enter }}" onblur="{{ p.leave }}" onclick="{{ p.click }}">
 <sc-if value="{{ p.src }}"><img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy"></sc-if>
@@ -71,8 +92,8 @@
 </figure>
 </sc-for>
 </main>
-<section id="about" style="margin:24px 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
-<div style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
+<section id="about" class="box" style="margin:24px 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
+<div class="box-head" style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:13px;display:flex;gap:10px"><b>Subject:</b><span>About</span></div>
 <h2 style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.05">About the project</h2>
 </div>
@@ -83,8 +104,8 @@
 <p style="margin:0">More notes on motivations here: <a href="https://eseldesvelo.substack.com/p/on-the-way-to-mozilla-festival">eseldesvelo.substack.com</a></p>
 </div>
 </section>
-<section id="workshops" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
-<div style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
+<section id="workshops" class="box" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
+<div class="box-head" style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:13px;display:flex;gap:10px"><b>Subject:</b><span>Workshops</span></div>
 <h2 style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.05">Workshops so far</h2>
 <p style="margin:0;font-size:13px;color:#4A5F7A">Ran one? <a href="#contact">Tell us</a> and <a href="#contribute">send the poems</a>.</p>
@@ -103,8 +124,8 @@
 </sc-for>
 </div>
 </section>
-<section id="contribute" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
-<div style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
+<section id="contribute" class="box" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
+<div class="box-head" style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:13px;display:flex;gap:10px"><b>Subject:</b><span>Contribute</span></div>
 <h2 style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.05">Submit your poem</h2>
 </div>
@@ -112,8 +133,8 @@
 <iframe data-tally-src="https://tally.so/embed/LZAR2z?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1" loading="lazy" width="100%" height="577" frameborder="0" marginheight="0" marginwidth="0" title="1000 Unread Emails Submissions" style="border:0;display:block"></iframe>
 </div>
 </section>
-<section id="resources" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
-<div style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
+<section id="resources" class="box" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
+<div class="box-head" style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:13px;display:flex;gap:10px"><b>Subject:</b><span>Resources</span></div>
 <h2 style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.05">Run your own workshop</h2>
 </div>
@@ -125,8 +146,8 @@
 <a href="resources/poem-card.pdf" download style="padding:16px 24px;display:flex;gap:16px;justify-content:space-between"><span>Poem cards</span><span>PDF ↓</span></a>
 </div>
 </section>
-<section id="contact" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
-<div style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
+<section id="contact" class="box" style="margin:0 40px 56px;border:1.5px solid #1A2332;display:flex;flex-wrap:wrap;overflow:hidden">
+<div class="box-head" style="padding:24px;flex:1 1 240px;box-shadow:1px 1px 0 #1A2332;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:13px;display:flex;gap:10px"><b>Subject:</b><span>Contact</span></div>
 <h2 style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.05">Get in touch</h2>
 </div>
