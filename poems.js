@@ -9,12 +9,18 @@
 //    - translation: shown under the original text when the poem is not in English (optional).
 // 4. Resources: upload the PDFs to resources/ with these exact names:
 //    facilitators-guide_en.pdf, facilitators-guide_es.pdf, slide-deck.pdf, participant-booklet.pdf, poem-card.pdf
+// 5. Workshops: add an entry to WORKSHOPS (at the bottom) for each workshop run.
+//    - place, facilitator, description: shown as text.
+//    - date: optional.
+//    - images: optional list of photos in assets/workshops/, e.g. ['place-1.jpg', 'place-2.jpg'].
+//      Just the file names. Keep each one under ~1600 px on its longest side.
 
 window.SITE = {
   repo: 'USERNAME/REPO-NAME',
   branch: 'main',
   poemsFolder: 'assets/poems',
   audiosFolder: 'assets/audios',
+  workshopsFolder: 'assets/workshops',
 };
 
 window.POEMS = [
@@ -411,5 +417,15 @@ Six years left.
 To the beach.
 Insert coin, Big swing.
 Joining forces, food for thought`,
+  },
+];
+
+window.WORKSHOPS = [
+  {
+    place: 'Fabra i Coats, Barcelona',
+    date: '28–30 October 2026',
+    facilitator: 'Alejandra F.',
+    description: 'Session run at the Mozilla Festival (MozFest) 2026.',
+    images: ['mozfest-2026_1.jpg', 'mozfest-2026_2.jpg', 'mozfest-2026_3.jpg'],
   },
 ];
