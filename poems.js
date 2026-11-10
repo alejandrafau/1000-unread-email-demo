@@ -418,6 +418,17 @@ To the beach.
 Insert coin, Big swing.
 Joining forces, food for thought`,
   },
+  {
+    file: '31-divanat.jpg',
+    text: `Диванът и килимът обичат
+Цените скачат
+Побързайте!
+С грижа за връзките`,
+    translation: `The sofa and the rug are in love
+Prices are jumping
+Hurry!
+Caring for your connections`,
+  },
 ];
 
 window.WORKSHOPS = [
